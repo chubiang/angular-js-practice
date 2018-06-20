@@ -21,19 +21,35 @@ myApp.config(['$routeProvider', function($routeProvider) {
 
 
 // ex02.html
-myApp.controller('myCtrl02', ['$scope', 'http', function($scope, $http) {
-    $scope.persons = [
-        {name:'Jani', age:23},
-        {name:'Carl', age:26},
-        {name:'Margareth', age:29},
-        {name:'Hege', age:32},
-        {name:'Joe', age:35},
-        {name:'Gustav', age:21}
-    ];
+myApp.controller('myCtrl02', ['$scope', '$http', '$q', '$log', function($scope, $http, $q, $log) {
 
-    $http.get('data/person.json').success( function() {
+    $scope.orderItem = ['name','age'];
+    //promise 객체 선언
+    var deferred = $q.defer();
 
+    $http.get('data/persons.json').then(function(response) {
+      $scope.persons = response.data;
+      deferred.resolve(response);
+    })
+    .catch(function(error) {
+      deferred.reject(error);
+      throw error;
+    })
+    .then(function(){
+      $log.info("성공 후 수행할 첫번째 미션!");
+    })
+    .finally(function(final) {
+      $log.info("마지막 수행할 첫번째 미션!");
     });
+
+    //person Grid
+    $scope.gridOptions = {
+        data: 'persons',
+        enablePinning: true,
+        columnDefs: [{ field: "name", width: 120, pinned: true },
+                    { field: "age", width: 120 }]
+    };
+
 
     $scope.orderByMe = function (x) {
       $scope.standard = x;
@@ -41,17 +57,17 @@ myApp.controller('myCtrl02', ['$scope', 'http', function($scope, $http) {
 
     $scope.insertPerson = function () {
       $scope.persons.push ( {
-        name: $scope.ins.name,
-        age : $scope.ins.age } );
+        name: $scope.insName,
+        age : $scope.insAge } );
 
-        $scope.ins.name = "";
-        $scope.ins.age  = "";
+        $scope.insName = "";
+        $scope.insAge  = "";
     }
 
     $scope.deletePerson = function (index) {
       $scope.persons.splice(index,1);
     }
-});
+}]);
 
 // ex01.html
 myApp.controller('myCtrl', ['$scope', function ($scope) {

@@ -88,6 +88,11 @@ h1,h2,h3{
   margin-left: 10px;
 }
 
+.gridStyle {
+  width: auto;
+  height: auto;
+}
+
 /* Animation */
 
 /* The starting CSS styles for the enter animation */

@@ -4,45 +4,53 @@
     <label for="staticEmail" class="col-sm-2 col-form-label">Search</label>
     <input type="text" class="form-control col-sm-7" ng-model="search" />
     <!-- name 이나 age에 -붙이면 역순 asc로 됨! -->
-    <button type="button" class="btn btn-info" ng-click="orderByMe('name')">name</button>
-    <button type="button" class="btn btn-info" ng-click="orderByMe('age')">age</button>
+    <select ng-model="selectOrder" ng-change="orderByMe(selectOrder)">
+      <option  ng-repeat="x in orderItem">{{x}}</option>
+    </select>
+    <!-- <button type="button" class="btn btn-info" ng-click="orderByMe('name')">name</button>
+    <button type="button" class="btn btn-info" ng-click="orderByMe('age')">age</button> -->
   </div>
   <!--Insert-->
   <form name="insForm" novalidate class="form-group row row col-sm-12">
-    <input type="text" name="name" ng-model="ins.name" class="col-sm-5 form-control" ng-required="true" placeholder="name"/>
-    <div ng-show="insForm.ins.name.$touched && insForm.ins.name.$invalid">
+
+    <input type="text" name="name" ng-model="insName" class="col-sm-3 form-control" ng-required="true" placeholder="name"/>
+    <div ng-show="insForm.name.$touched && insForm.name.$invalid" class="col-sm-2">
         <small style="display:block;">이름 입력하세요.</small>
     </div>
-    <input type="text" name="age" ng-model="ins.age" class="col-sm-5 form-control" ng-required="true" placeholder="age"/>
-    <div ng-show="insForm.ins.name.$touched && insForm.ins.name.$invalid">
+    <input type="text" name="age" ng-model="insAge" class="col-sm-3 form-control" ng-required="true" placeholder="age"/>
+    <div ng-show="insForm.age.$touched && insForm.age.$invalid" class="col-sm-2">
         <small>나이 입력하세요.</small>
     </div>
     <!-- name 이나 age에 -붙이면 역순 asc로 됨! -->
-    <button type="submit" class="btn btn-info col-sm-2 ins_btn" ng-disabled="insForm.$invalid" ng-click="insertPerson()">Join</button>
+    <button type="submit" ng-class="{disabled: myCtrl02.form.$dirty}" class="btn btn-info col-sm-2 ins_btn"  ng-click="insertPerson()">Join</button>
   </form>
 
   <div>
-  <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Age</th>
-      <th scope="col">Remove</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="person in persons | filter : search | orderBy: standard">
-      <th scope="row">{{ $index+1 }}</th>
-      <td>{{person.name}}</td>
-      <td>{{person.age}}</td>
-      <td>
-        <button type="button" class="close" aria-label="Close" ng-click="deletePerson($index)">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-  </table>
+    <!-- Table -->
+    <div class="gridStyle" ng-grid="personGrid">
+
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Age</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="person in persons | filter : search | orderBy: standard">
+        <th scope="row">{{ $index+1 }}</th>
+        <td>{{person.name}}</td>
+        <td>{{person.age}}</td>
+        <td>
+          <button type="button" class="close" aria-label="Close" ng-click="deletePerson($index)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 </div>
