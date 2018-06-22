@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute','ngAnimate']);
+var myApp = angular.module('myApp', ['ngRoute','ngAnimate','ui.grid']);
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider
@@ -24,6 +24,7 @@ myApp.config(['$routeProvider', function($routeProvider) {
 myApp.controller('myCtrl02', ['$scope', '$http', '$q', '$log', function($scope, $http, $q, $log) {
 
     $scope.orderItem = ['name','age'];
+
     //promise 객체 선언
     var deferred = $q.defer();
 
@@ -31,6 +32,7 @@ myApp.controller('myCtrl02', ['$scope', '$http', '$q', '$log', function($scope, 
       $scope.persons = response.data;
       deferred.resolve(response);
     })
+
     .catch(function(error) {
       deferred.reject(error);
       throw error;
@@ -44,12 +46,10 @@ myApp.controller('myCtrl02', ['$scope', '$http', '$q', '$log', function($scope, 
 
     //person Grid
     $scope.gridOptions = {
-        data: 'persons',
-        enablePinning: true,
-        columnDefs: [{ field: "name", width: 120, pinned: true },
-                    { field: "age", width: 120 }]
+        data : 'persons',
+        columnDefs: [{field: 'name', displayName: 'name', width: '50%'},
+                    {field: 'age', displayName: 'age', width: '50%'}]
     };
-
 
     $scope.orderByMe = function (x) {
       $scope.standard = x;

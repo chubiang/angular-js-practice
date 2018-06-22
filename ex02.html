@@ -25,11 +25,10 @@
     <button type="submit" ng-class="{disabled: myCtrl02.form.$dirty}" class="btn btn-info col-sm-2 ins_btn"  ng-click="insertPerson()">Join</button>
   </form>
 
-  <div>
     <!-- Table -->
-    <div class="gridStyle" ng-grid="personGrid">
-
+    <div class="gridStyle" ui-grid="gridOptions" ui-grid-edit>
     </div>
+    <!--
     <table class="table">
       <thead>
       <tr>
@@ -52,5 +51,5 @@
       </tr>
     </tbody>
     </table>
-  </div>
+  -->
 </div>
